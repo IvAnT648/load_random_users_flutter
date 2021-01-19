@@ -23,7 +23,9 @@ class RandomUserProvider
 
     var users = [];
     for (var el in decodedJson['results']) {
-      users.add(RandomUser.fromMap(el));
+      if (el['id']['value'] != null) {
+        users.add(RandomUser.fromMap(el));
+      }
     }
     return users;
   }
