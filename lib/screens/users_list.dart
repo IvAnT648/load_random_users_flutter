@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
+import 'package:random_user/models/user.dart';
 
 class UsersListScreen extends StatefulWidget
 {
@@ -13,11 +13,19 @@ class _UsersListScreenState extends State<UsersListScreen>
   @override
   Widget build(BuildContext context)
   {
-    String login = Hive.box('user').get('login');
+    String login = User.getData('login');
 
     return Scaffold(
       appBar: AppBar(
         title: Text('Logged in as $login'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.exit_to_app),
+            onPressed: () {
+
+            },
+          )
+        ],
       ),
     );
   }

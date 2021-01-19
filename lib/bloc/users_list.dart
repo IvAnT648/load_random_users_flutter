@@ -1,15 +1,41 @@
 
 import 'dart:async';
-import 'package:random_user/bloc/base.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:random_user/bloc/events.dart';
+import 'package:random_user/bloc/states.dart';
+import 'package:random_user/services/random_user_provider.dart';
 
-class UsersListBloc extends BaseBloc
+class UsersListBloc extends Bloc<UsersListEvent, UsersListState>
 {
-  final _streamController = StreamController<String>();
-  Stream<String> get stream => _streamController.stream;
-  
+  final _dataProvider = RandomUserProvider();
+
+  UsersListBloc() : super(EmptyUsersListState());
+
   @override
-  void dispose()
+  Stream<UsersListState> mapEventToState(UsersListEvent event) async*
   {
-    _streamController.close();
+    switch (event) {
+      case UsersListEvent.Load:
+        yield LoadingUsersListState();
+        try {
+          final users = await _dataProvider.getUsers();
+          yield LoadedUsersListState(users);
+        } catch (_) {
+          yield EmptyUsersListState();
+        }
+        break;
+
+      case UsersListEvent.OpenSearch:
+        yield EmptyUsersListState();
+        break;
+
+      case UsersListEvent.Search:
+        yield EmptyUsersListState();
+        break;
+
+      case UsersListEvent.Logout:
+        yield EmptyUsersListState();
+        break;
+    }
   }
 }

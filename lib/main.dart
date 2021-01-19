@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:random_user/auth_screen.dart';
-import 'package:random_user/bloc/auth.dart';
-import 'package:random_user/bloc/provider.dart';
-import 'package:random_user/users_list_screen.dart';
+import 'package:random_user/models/user.dart';
+import 'package:random_user/screens/auth.dart';
+import 'package:random_user/screens/users_list.dart';
 
 void main() async {
   await Hive.initFlutter();
   await Hive.openBox('user');
-  
+
   runApp(RandomUsersApp());
 }
 
@@ -19,19 +18,10 @@ class RandomUsersApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     Widget homeScreen;
-    if (Hive.box('user').get('login') == null) {
-
-      homeScreen = MyBlocProvider(
-          bloc: AuthBloc(),
-          child: AuthScreen()
-      );
-
+    if (User.isLoggedIn()) {
+      homeScreen = UsersListScreen();
     } else {
-
-      homeScreen = MyBlocProvider(
-          bloc: null,
-          child: UsersListScreen()
-      );
+      homeScreen = AuthScreen();
     }
 
     return MaterialApp(
