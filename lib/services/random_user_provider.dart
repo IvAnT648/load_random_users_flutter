@@ -6,7 +6,7 @@ import 'package:random_user/models/random_user.dart';
 
 class RandomUserProvider
 {
-  final _usersApiUrl = 'https://randomuser.me/api/?results=10&seed=foobar&key=9N6N-0HK1-VBLQ-GA99';
+  final _usersApiUrl = 'https://randomuser.me/api/?results=20&seed=foobar&key=9N6N-0HK1-VBLQ-GA99';
 
 
   Future<List<RandomUser>> getUsers() async
@@ -21,7 +21,7 @@ class RandomUserProvider
 
     final decodedJson = json.decode(response.body);
 
-    var users = [];
+    List<RandomUser> users = [];
     for (var el in decodedJson['results']) {
       if (el['id']['value'] != null) {
         users.add(RandomUser.fromMap(el));
