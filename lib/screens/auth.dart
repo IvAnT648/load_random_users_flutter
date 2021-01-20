@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:random_user/bloc/users_list.dart';
 import 'package:random_user/models/user.dart';
 import 'package:random_user/screens/users_list.dart';
 
@@ -49,10 +51,17 @@ class _AuthScreenState extends State<AuthScreen>
                         print('ERR: Unable to auth user.');
                         return;
                       }
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (context) => UsersListScreen())
+                      var route = MaterialPageRoute(
+                          builder: (context) => BlocProvider<UsersListBloc>(
+                            create: (context) {
+                              var bloc = UsersListBloc();
+                              bloc.add(UsersListEvent.Load);
+                              return bloc;
+                            },
+                            child: UsersListScreen(),
+                          )
                       );
+                      Navigator.pushReplacement(context, route);
                     },
                     child: Text('Login'),
                     style: TextButton.styleFrom(
@@ -70,5 +79,4 @@ class _AuthScreenState extends State<AuthScreen>
       )
     );
   }
-
 }

@@ -8,14 +8,18 @@ enum UsersListEvent {
   Load,
   OpenSearch,
   Search,
-  Logout,
 }
 
 abstract class UsersListState {}
 
 class EmptyUsersListState extends UsersListState {}
 
-class ErrorUsersListState extends UsersListState {}
+class ErrorUsersListState extends UsersListState
+{
+  final String msg;
+
+  ErrorUsersListState([this.msg]);
+}
 
 class LoadingUsersListState extends UsersListState {}
 
@@ -43,8 +47,8 @@ class UsersListBloc extends Bloc<UsersListEvent, UsersListState>
           final users = await _dataProvider.getUsers();
           yield LoadedUsersListState(users);
         } catch (e) {
-          print('An exception got: $e');
-          yield ErrorUsersListState();
+          print('An exception was happen: $e');
+          yield ErrorUsersListState(e.toString());
         }
         break;
 
@@ -53,10 +57,6 @@ class UsersListBloc extends Bloc<UsersListEvent, UsersListState>
         break;
 
       case UsersListEvent.Search:
-        yield EmptyUsersListState();
-        break;
-
-      case UsersListEvent.Logout:
         yield EmptyUsersListState();
         break;
     }
