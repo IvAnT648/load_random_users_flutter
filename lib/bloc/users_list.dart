@@ -25,8 +25,9 @@ class UsersListBloc
   List<RandomUser> get usersListFiltered => _usersListFiltered;
 
   @override
-  get onDataFiltered => (List<RandomUser> list) {
+  get onDataFiltered => (List<dynamic> list) {
     _usersListFiltered = list;
+    add(UsersListEvent.SearchCompleted);
     return usersListFiltered;
   };
 
@@ -47,9 +48,11 @@ class UsersListBloc
           yield ErrorUsersListState(e.toString());
         }
         break;
+
       case UsersListEvent.SearchCompleted:
         yield LoadedUsersListState();
         break;
+
       default:
         throw Exception('Unknown bloc event.');
     }
