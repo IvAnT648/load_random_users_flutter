@@ -8,7 +8,7 @@ class RandomUserProvider
 {
   final _apiUrl = 'https://randomuser.me/api';
   final _key = "9N6N-0HK1-VBLQ-GA99";
-  int _usersCount = 20;
+  int _usersCount = 30;
   String _seed = "foobar";
 
   String get apiUrl => "$_apiUrl?results=$_usersCount&seed=$_seed&key=$_key";
