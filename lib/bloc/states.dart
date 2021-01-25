@@ -13,3 +13,9 @@ class ErrorUsersListState extends UsersListState
 class LoadingUsersListState extends UsersListState {}
 
 class LoadedUsersListState extends UsersListState {}
+
+/// ----------------------------------------------------------------------------
+
+abstract class UserProfileState {}
+
+class IndexUserProfileState extends UserProfileState {}

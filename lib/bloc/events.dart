@@ -4,3 +4,6 @@ enum UsersListEvent {
   SearchCompleted,
 }
 
+enum UserProfileEvent {
+  Index,
+}

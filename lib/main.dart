@@ -23,14 +23,7 @@ class RandomUsersApp extends StatelessWidget {
 
     Widget homeScreen;
     if (User.isLoggedIn()) {
-      homeScreen = BlocProvider<UsersListBloc>(
-        create: (context) {
-          var bloc = UsersListBloc();
-          bloc.add(UsersListEvent.Loading);
-          return bloc;
-        },
-        child: UsersListScreen(),
-      );
+      homeScreen = UsersListScreen();
     } else {
       homeScreen = AuthScreen();
     }

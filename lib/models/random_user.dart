@@ -1,21 +1,17 @@
 
+import 'package:random_user/models/location.dart';
+
 class RandomUser
 {
   String id;
   String fullName;
   String photoUrl;
+  Location location;
 
-  RandomUser({this.id, this.fullName, this.photoUrl});
-
-  factory RandomUser.fromMap(Map<String, dynamic> data)
-  {
-    var name = data['name']['first'] +
-        ' ' + data['name']['last'];
-
-    return RandomUser(
-      id: data['id']['value'],
-      fullName: name,
-      photoUrl: data['picture']['medium'],
-    );
-  }
+  RandomUser({
+    this.id,
+    this.fullName,
+    this.photoUrl,
+    this.location
+  });
 }
