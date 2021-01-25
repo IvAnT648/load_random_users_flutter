@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:random_user/bloc/events.dart';
+import 'package:random_user/bloc/states.dart';
 import 'package:random_user/bloc/users_list.dart';
 import 'package:random_user/models/random_user.dart';
 import 'package:random_user/models/user.dart';
@@ -36,7 +38,7 @@ class UsersListScreen extends StatelessWidget
 
           body = RefreshIndicator(
             onRefresh: () async {
-              bloc?.add(UsersListEvent.ListLoaded);
+              bloc?.add(UsersListEvent.Loading);
             },
             child: ListView(
               physics: const AlwaysScrollableScrollPhysics(),
@@ -78,7 +80,7 @@ class UsersListScreen extends StatelessWidget
           body = RefreshIndicator(
             key: _refreshIndicatorKey,
             onRefresh: () async {
-              bloc?.add(UsersListEvent.ListLoaded);
+              bloc?.add(UsersListEvent.Loading);
             },
             child: Container(
               child: ListView.builder(
@@ -120,7 +122,7 @@ class UsersListScreen extends StatelessWidget
         if (body == null) {
           body = RefreshIndicator(
             onRefresh: () async {
-              bloc?.add(UsersListEvent.ListLoaded);
+              bloc?.add(UsersListEvent.Loading);
             },
             child: ListView(
               physics: const AlwaysScrollableScrollPhysics(),

@@ -7,6 +7,8 @@ import 'package:random_user/models/user.dart';
 import 'package:random_user/screens/auth.dart';
 import 'package:random_user/screens/users_list.dart';
 
+import 'bloc/events.dart';
+
 void main() async {
   await Hive.initFlutter();
   await Hive.openBox('user');
@@ -24,7 +26,7 @@ class RandomUsersApp extends StatelessWidget {
       homeScreen = BlocProvider<UsersListBloc>(
         create: (context) {
           var bloc = UsersListBloc();
-          bloc.add(UsersListEvent.ListLoaded);
+          bloc.add(UsersListEvent.Loading);
           return bloc;
         },
         child: UsersListScreen(),

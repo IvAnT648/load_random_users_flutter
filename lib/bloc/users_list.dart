@@ -1,29 +1,12 @@
 
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:random_user/bloc/states.dart';
 import 'package:random_user/models/random_user.dart';
 import 'package:random_user/services/random_user_provider.dart';
 import 'package:search_app_bar/searcher.dart';
 
-enum UsersListEvent {
-  ListLoaded,
-  SearchCompleted,
-}
-
-abstract class UsersListState {}
-
-class EmptyUsersListState extends UsersListState {}
-
-class ErrorUsersListState extends UsersListState
-{
-  final String msg;
-
-  ErrorUsersListState([this.msg]);
-}
-
-class LoadingUsersListState extends UsersListState {}
-
-class LoadedUsersListState extends UsersListState {}
+import 'events.dart';
 
 class UsersListBloc
     extends Bloc<UsersListEvent, UsersListState>
@@ -54,7 +37,7 @@ class UsersListBloc
   {
     switch (event) {
 
-      case UsersListEvent.ListLoaded:
+      case UsersListEvent.Loading:
         yield LoadingUsersListState();
         try {
           data = await _dataProvider.getUsers();

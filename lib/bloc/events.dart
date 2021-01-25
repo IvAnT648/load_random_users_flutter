@@ -1,0 +1,6 @@
+
+enum UsersListEvent {
+  Loading,
+  SearchCompleted,
+}
+

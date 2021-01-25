@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:random_user/bloc/events.dart';
 import 'package:random_user/bloc/users_list.dart';
 import 'package:random_user/models/user.dart';
 import 'package:random_user/screens/users_list.dart';
@@ -55,7 +56,7 @@ class _AuthScreenState extends State<AuthScreen>
                           builder: (context) => BlocProvider<UsersListBloc>(
                             create: (context) {
                               var bloc = UsersListBloc();
-                              bloc.add(UsersListEvent.ListLoaded);
+                              bloc.add(UsersListEvent.Loading);
                               return bloc;
                             },
                             child: UsersListScreen(),
