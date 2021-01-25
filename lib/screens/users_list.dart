@@ -59,7 +59,7 @@ class UsersListScreen extends StatelessWidget
             title: Text('Logged in as $login'),
             searcher: bloc,
             filter: (RandomUser user, String query) {
-              return Filters.startsWith(user.fullName, query);
+              return Filters.contains(user.fullName, query);
             },
             iconTheme: IconThemeData(color: Colors.white),
             searchButtonPosition: 0,
