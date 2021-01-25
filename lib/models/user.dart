@@ -43,7 +43,7 @@ class User
   static bool login(Map<String, String> data)
   {
     if (isValidData(data)) {
-      setData(data);
+      updateData('login', data['login']);
       return true;
     }
     return false;

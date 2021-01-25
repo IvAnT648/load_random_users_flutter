@@ -6,12 +6,12 @@ import 'package:random_user/models/random_user.dart';
 
 class RandomUserProvider
 {
-  final _usersApiUrl = 'https://randomuser.me/api';
+  final _apiUrl = 'https://randomuser.me/api';
   final _key = "9N6N-0HK1-VBLQ-GA99";
   int _usersCount = 20;
   String _seed = "foobar";
 
-  String get apiUrl => "$_usersApiUrl?results=$_usersCount&seed=$_seed&key=$_key";
+  String get apiUrl => "$_apiUrl?results=$_usersCount&seed=$_seed&key=$_key";
 
 
   Future<List<RandomUser>> getUsers() async

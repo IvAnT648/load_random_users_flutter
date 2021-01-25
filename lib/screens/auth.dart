@@ -55,7 +55,7 @@ class _AuthScreenState extends State<AuthScreen>
                           builder: (context) => BlocProvider<UsersListBloc>(
                             create: (context) {
                               var bloc = UsersListBloc();
-                              bloc.add(UsersListEvent.Load);
+                              bloc.add(UsersListEvent.ListLoaded);
                               return bloc;
                             },
                             child: UsersListScreen(),

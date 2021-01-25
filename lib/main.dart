@@ -24,7 +24,7 @@ class RandomUsersApp extends StatelessWidget {
       homeScreen = BlocProvider<UsersListBloc>(
         create: (context) {
           var bloc = UsersListBloc();
-          bloc.add(UsersListEvent.Load);
+          bloc.add(UsersListEvent.ListLoaded);
           return bloc;
         },
         child: UsersListScreen(),

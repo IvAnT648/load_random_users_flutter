@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:random_user/models/random_user.dart';
 import 'package:random_user/services/random_user_provider.dart';
+import 'package:search_app_bar/searcher.dart';
 
 enum UsersListEvent {
-  Load,
-  OpenSearch,
-  Search,
+  ListLoaded,
+  SearchCompleted,
 }
 
 abstract class UsersListState {}
@@ -23,16 +23,29 @@ class ErrorUsersListState extends UsersListState
 
 class LoadingUsersListState extends UsersListState {}
 
-class LoadedUsersListState extends UsersListState
-{
-  List<RandomUser> list;
+class LoadedUsersListState extends UsersListState {}
 
-  LoadedUsersListState(this.list);
-}
-
-class UsersListBloc extends Bloc<UsersListEvent, UsersListState>
+class UsersListBloc
+    extends Bloc<UsersListEvent, UsersListState>
+    implements Searcher<RandomUser>
 {
   final _dataProvider = RandomUserProvider();
+
+  List<RandomUser> _loadedUsersList = [];
+  List<RandomUser> get data => _loadedUsersList;
+  set data(List<RandomUser> value) {
+    _loadedUsersList = value;
+    _usersListFiltered = value;
+  }
+
+  List<RandomUser> _usersListFiltered = [];
+  List<RandomUser> get usersListFiltered => _usersListFiltered;
+
+  @override
+  get onDataFiltered => (List<RandomUser> list) {
+    _usersListFiltered = list;
+    return usersListFiltered;
+  };
 
   UsersListBloc() : super(EmptyUsersListState());
 
@@ -41,24 +54,21 @@ class UsersListBloc extends Bloc<UsersListEvent, UsersListState>
   {
     switch (event) {
 
-      case UsersListEvent.Load:
+      case UsersListEvent.ListLoaded:
         yield LoadingUsersListState();
         try {
-          final users = await _dataProvider.getUsers();
-          yield LoadedUsersListState(users);
+          data = await _dataProvider.getUsers();
+          yield LoadedUsersListState();
         } catch (e) {
           print('An exception was happen: $e');
           yield ErrorUsersListState(e.toString());
         }
         break;
-
-      case UsersListEvent.OpenSearch:
-        yield EmptyUsersListState();
+      case UsersListEvent.SearchCompleted:
+        yield LoadedUsersListState();
         break;
-
-      case UsersListEvent.Search:
-        yield EmptyUsersListState();
-        break;
+      default:
+        throw Exception('Unknown bloc event.');
     }
   }
 }

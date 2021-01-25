@@ -9,8 +9,7 @@ class RandomUser
 
   factory RandomUser.fromMap(Map<String, dynamic> data)
   {
-    var name = data['name']['title'] +
-        ' ' + data['name']['first'] +
+    var name = data['name']['first'] +
         ' ' + data['name']['last'];
 
     return RandomUser(
