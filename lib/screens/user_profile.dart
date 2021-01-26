@@ -1,19 +1,20 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:random_user/bloc/states.dart';
 import 'package:random_user/bloc/user_profile.dart';
 import 'package:random_user/models/random_user.dart';
 
-class UserProfileScreen extends StatelessWidget
-{
+class UserProfileScreen extends StatelessWidget {
+  /// Лучше любые данные делегировать блоку, а не экрану. Инфу о юзере можно
+  /// передать через конструктор блока
   final RandomUser user;
 
   UserProfileScreen(this.user);
 
   @override
   Widget build(BuildContext context) {
-
+    /// Провайдер лучше выносить за пределы экрана (обычно через провайдер
+    /// инжектятся зависимости)
     return BlocProvider<UserProfileBloc>(
       create: (BuildContext context) => UserProfileBloc(),
       child: BlocBuilder<UserProfileBloc, UserProfileState>(

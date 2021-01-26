@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:random_user/bloc/events.dart';
@@ -11,13 +10,15 @@ import 'package:random_user/screens/user_profile.dart';
 import 'package:search_app_bar/filter.dart';
 import 'package:search_app_bar/search_app_bar.dart';
 
-class UsersListScreen extends StatelessWidget
-{
+class UsersListScreen extends StatelessWidget {
+  static String id = '/usersList';
+
   final _refreshIndicatorKey = new GlobalKey<RefreshIndicatorState>();
 
   @override
-  Widget build(BuildContext context)
-  {
+  Widget build(BuildContext context) {
+    /// Провайдер лучше выносить за пределы экрана, а его настройку выполнять
+    /// непосредственно в конструкторе
     return BlocProvider<UsersListBloc>(
       create: (context) {
         var bloc = UsersListBloc();
@@ -26,7 +27,6 @@ class UsersListScreen extends StatelessWidget
       },
       child: BlocBuilder<UsersListBloc, UsersListState>(
         builder: (context, state) {
-
           // ignore: close_sinks
           var bloc = BlocProvider.of<UsersListBloc>(context);
 
@@ -35,11 +35,8 @@ class UsersListScreen extends StatelessWidget
           Widget body;
 
           if (state is LoadingUsersListState) {
-
             body = Center(child: CircularProgressIndicator());
-
           } else if (state is ErrorUsersListState) {
-
             String errorMsgText = state.msg != null
                 ? state.msg
                 : 'Error fetching users! Try to refresh it later.';
@@ -60,9 +57,7 @@ class UsersListScreen extends StatelessWidget
                 ],
               ),
             );
-
           } else if (state is LoadedUsersListState) {
-
             appBar = SearchAppBar<RandomUser>(
               title: Text('Logged in as $login'),
               searcher: bloc,
@@ -76,9 +71,8 @@ class UsersListScreen extends StatelessWidget
                   icon: const Icon(Icons.exit_to_app),
                   onPressed: () {
                     User.logout();
-                    var route = MaterialPageRoute(
-                        builder: (context) => AuthScreen()
-                    );
+                    var route =
+                        MaterialPageRoute(builder: (context) => AuthScreen());
                     Navigator.pushReplacement(context, route);
                   },
                 )
@@ -108,8 +102,7 @@ class UsersListScreen extends StatelessWidget
                               context,
                               MaterialPageRoute(
                                 builder: (context) => UserProfileScreen(user),
-                              )
-                          );
+                              ));
                         },
                       ),
                     );
@@ -129,9 +122,8 @@ class UsersListScreen extends StatelessWidget
                   icon: const Icon(Icons.exit_to_app),
                   onPressed: () {
                     User.logout();
-                    var route = MaterialPageRoute(
-                        builder: (context) => AuthScreen()
-                    );
+                    var route =
+                        MaterialPageRoute(builder: (context) => AuthScreen());
                     Navigator.pushReplacement(context, route);
                   },
                 )
@@ -149,11 +141,8 @@ class UsersListScreen extends StatelessWidget
                 physics: const AlwaysScrollableScrollPhysics(),
                 children: [
                   ListTile(
-                      title: Text(
-                          'No data received. Try to refresh it later.',
-                          style: TextStyle(fontSize: 18.0)
-                      )
-                  )
+                      title: Text('No data received. Try to refresh it later.',
+                          style: TextStyle(fontSize: 18.0)))
                 ],
               ),
             );

@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:random_user/bloc/states.dart';
@@ -8,36 +7,36 @@ import 'package:search_app_bar/searcher.dart';
 
 import 'events.dart';
 
-class UsersListBloc
-    extends Bloc<UsersListEvent, UsersListState>
-    implements Searcher<RandomUser>
-{
+class UsersListBloc extends Bloc<UsersListEvent, UsersListState> implements Searcher<RandomUser> {
   final _dataProvider = RandomUsersApiProvider();
 
   List<RandomUser> _loadedUsersList = [];
+
   List<RandomUser> get data => _loadedUsersList;
+
   set data(List<RandomUser> value) {
     _loadedUsersList = value;
     _usersListFiltered = value;
   }
 
   List<RandomUser> _usersListFiltered = [];
+
   List<RandomUser> get usersListFiltered => _usersListFiltered;
+
+  Future<void> asyncTask() async {}
 
   @override
   get onDataFiltered => (List<dynamic> list) {
-    _usersListFiltered = list;
-    add(UsersListEvent.SearchCompleted);
-    return usersListFiltered;
-  };
+        _usersListFiltered = list;
+        add(UsersListEvent.SearchCompleted);
+        return usersListFiltered;
+      };
 
   UsersListBloc() : super(EmptyUsersListState());
 
   @override
-  Stream<UsersListState> mapEventToState(UsersListEvent event) async*
-  {
+  Stream<UsersListState> mapEventToState(UsersListEvent event) async* {
     switch (event) {
-
       case UsersListEvent.Loading:
         yield LoadingUsersListState();
         try {
@@ -52,9 +51,6 @@ class UsersListBloc
       case UsersListEvent.SearchCompleted:
         yield LoadedUsersListState();
         break;
-
-      default:
-        throw Exception('Unknown bloc event.');
     }
   }
 }

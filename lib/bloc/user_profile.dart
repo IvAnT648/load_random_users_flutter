@@ -18,6 +18,7 @@ class UserProfileBloc extends Bloc<UserProfileEvent, UserProfileState>
         yield IndexUserProfileState();
         break;
 
+        /// Выбрасываешь ошибку, но не ловишь. Это приведет к крашу
       default:
         throw Exception('Unknown user profile screen event.');
     }
