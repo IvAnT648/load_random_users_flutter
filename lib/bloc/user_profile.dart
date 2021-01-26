@@ -10,17 +10,11 @@ class UserProfileBloc extends Bloc<UserProfileEvent, UserProfileState>
   UserProfileBloc() : super(IndexUserProfileState());
 
   @override
-  Stream<UserProfileState> mapEventToState(UserProfileEvent event) async*
-  {
+  Stream<UserProfileState> mapEventToState(UserProfileEvent event) async* {
     switch (event) {
-
-      case UserProfileEvent.Index:
+      case UserProfileEvent.Init:
         yield IndexUserProfileState();
         break;
-
-      default:
-        throw Exception('Unknown user profile screen event.');
     }
   }
-
 }

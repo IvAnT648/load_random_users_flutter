@@ -1,32 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:random_user/bloc/auth.dart';
 import 'package:random_user/bloc/users_list.dart';
-import 'package:random_user/models/user.dart';
 import 'package:random_user/screens/auth.dart';
+import 'package:random_user/screens/user_profile.dart';
 import 'package:random_user/screens/users_list.dart';
+import 'package:random_user/storage/user_data.dart';
 
-import 'bloc/events.dart';
+import 'bloc/user_profile.dart';
 
 void main() async {
-  await Hive.initFlutter();
-  await Hive.openBox('user');
+  UserDataStorageHive.initHive();
 
   runApp(RandomUsersApp());
 }
 
 class RandomUsersApp extends StatelessWidget {
-  // This widget is the root of your application.
+  static const String baseRoute = '/';
+
   @override
   Widget build(BuildContext context) {
-
-    Widget homeScreen;
-    if (User.isLoggedIn()) {
-      homeScreen = UsersListScreen();
-    } else {
-      homeScreen = AuthScreen();
-    }
 
     return MaterialApp(
       title: 'Random Users App',
@@ -34,7 +27,25 @@ class RandomUsersApp extends StatelessWidget {
         primarySwatch: Colors.deepOrange,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: homeScreen
+      initialRoute: baseRoute,
+      routes: {
+        baseRoute: (_) => BlocProvider<AuthBloc>(
+          create: (_) => AuthBloc(),
+          child: AuthScreen(),
+        ),
+        AuthScreen.routeName: (_) => BlocProvider<AuthBloc>(
+          create: (_) => AuthBloc(),
+          child: AuthScreen(),
+        ),
+        UsersListScreen.routeName: (_) => BlocProvider<UsersListBloc>(
+          create: (_) => UsersListBloc(),
+          child: UsersListScreen(),
+        ),
+        UserProfileScreen.routeName: (_) => BlocProvider<UserProfileBloc>(
+          create: (_) => UserProfileBloc(),
+          child: UserProfileScreen(),
+        ),
+      },
     );
   }
 }

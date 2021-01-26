@@ -1,8 +1,8 @@
-
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:random_user/bloc/states.dart';
 import 'package:random_user/models/random_user.dart';
+import 'package:random_user/models/user.dart';
 import 'package:random_user/services/random_users_api/provider.dart';
 import 'package:search_app_bar/searcher.dart';
 
@@ -10,18 +10,21 @@ import 'events.dart';
 
 class UsersListBloc
     extends Bloc<UsersListEvent, UsersListState>
-    implements Searcher<RandomUser>
-{
+    implements Searcher<RandomUser> {
+
   final _dataProvider = RandomUsersApiProvider();
 
   List<RandomUser> _loadedUsersList = [];
+
   List<RandomUser> get data => _loadedUsersList;
+
   set data(List<RandomUser> value) {
     _loadedUsersList = value;
     _usersListFiltered = value;
   }
 
   List<RandomUser> _usersListFiltered = [];
+
   List<RandomUser> get usersListFiltered => _usersListFiltered;
 
   @override
@@ -31,13 +34,11 @@ class UsersListBloc
     return usersListFiltered;
   };
 
-  UsersListBloc() : super(EmptyUsersListState());
+  UsersListBloc() : super(LoadingUsersListState());
 
   @override
-  Stream<UsersListState> mapEventToState(UsersListEvent event) async*
-  {
+  Stream<UsersListState> mapEventToState(UsersListEvent event) async* {
     switch (event) {
-
       case UsersListEvent.Loading:
         yield LoadingUsersListState();
         try {
@@ -53,8 +54,9 @@ class UsersListBloc
         yield LoadedUsersListState();
         break;
 
-      default:
-        throw Exception('Unknown bloc event.');
+      case UsersListEvent.Logout:
+        User.logout();
+        break;
     }
   }
 }

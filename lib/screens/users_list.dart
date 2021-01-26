@@ -13,18 +13,14 @@ import 'package:search_app_bar/search_app_bar.dart';
 
 class UsersListScreen extends StatelessWidget
 {
+  static const String routeName = '/users';
+
   final _refreshIndicatorKey = new GlobalKey<RefreshIndicatorState>();
 
   @override
   Widget build(BuildContext context)
   {
-    return BlocProvider<UsersListBloc>(
-      create: (context) {
-        var bloc = UsersListBloc();
-        bloc.add(UsersListEvent.Loading);
-        return bloc;
-      },
-      child: BlocBuilder<UsersListBloc, UsersListState>(
+    return BlocBuilder<UsersListBloc, UsersListState>(
         builder: (context, state) {
 
           // ignore: close_sinks
@@ -75,11 +71,11 @@ class UsersListScreen extends StatelessWidget
                 IconButton(
                   icon: const Icon(Icons.exit_to_app),
                   onPressed: () {
-                    User.logout();
-                    var route = MaterialPageRoute(
-                        builder: (context) => AuthScreen()
+                    bloc.add(UsersListEvent.Logout);
+                    Navigator.pushReplacementNamed(
+                        context,
+                        AuthScreen.routeName
                     );
-                    Navigator.pushReplacement(context, route);
                   },
                 )
               ],
@@ -104,11 +100,10 @@ class UsersListScreen extends StatelessWidget
                         ),
                         title: Text(user.fullName),
                         onTap: () {
-                          Navigator.push(
+                          Navigator.pushNamed(
                               context,
-                              MaterialPageRoute(
-                                builder: (context) => UserProfileScreen(user),
-                              )
+                              UserProfileScreen.routeName,
+                              arguments: user
                           );
                         },
                       ),
@@ -128,11 +123,8 @@ class UsersListScreen extends StatelessWidget
                 IconButton(
                   icon: const Icon(Icons.exit_to_app),
                   onPressed: () {
-                    User.logout();
-                    var route = MaterialPageRoute(
-                        builder: (context) => AuthScreen()
-                    );
-                    Navigator.pushReplacement(context, route);
+                    bloc.add(UsersListEvent.Logout);
+                    Navigator.pushReplacementNamed(context, AuthScreen.routeName);
                   },
                 )
               ],
@@ -164,7 +156,6 @@ class UsersListScreen extends StatelessWidget
             body: body,
           );
         },
-      ),
     );
   }
 }
