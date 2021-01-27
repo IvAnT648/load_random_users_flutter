@@ -1,5 +1,6 @@
 
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 abstract class UserDataStorage {
   static const String loginKey = 'login';
@@ -11,6 +12,7 @@ class UserDataStorageHive implements UserDataStorage {
   static const String boxName = 'user';
 
   static initHive() async {
+    await Hive.initFlutter();
     await Hive.openBox(boxName);
   }
 

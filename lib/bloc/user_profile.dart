@@ -11,8 +11,8 @@ class UserProfileBloc extends Bloc<UserProfileEvent, UserProfileState>
 
   @override
   Stream<UserProfileState> mapEventToState(UserProfileEvent event) async* {
-    switch (event) {
-      case UserProfileEvent.Init:
+    switch (event.runtimeType) {
+      case InitUserProfileEvent:
         yield IndexUserProfileState();
         break;
     }

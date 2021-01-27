@@ -30,7 +30,7 @@ class UsersListBloc
   @override
   get onDataFiltered => (List<dynamic> list) {
     _usersListFiltered = list;
-    add(UsersListEvent.SearchCompleted);
+    add(SearchCompletedUsersListEvent());
     return usersListFiltered;
   };
 
@@ -38,8 +38,8 @@ class UsersListBloc
 
   @override
   Stream<UsersListState> mapEventToState(UsersListEvent event) async* {
-    switch (event) {
-      case UsersListEvent.Load:
+    switch (event.runtimeType) {
+      case LoadUsersListEvent:
         yield LoadingUsersListState();
         try {
           data = await _dataProvider.getUsers();
@@ -50,11 +50,11 @@ class UsersListBloc
         }
         break;
 
-      case UsersListEvent.SearchCompleted:
+      case SearchCompletedUsersListEvent:
         yield LoadedUsersListState();
         break;
 
-      case UsersListEvent.Logout:
+      case LogoutUsersListEvent:
         User.logout();
         break;
     }

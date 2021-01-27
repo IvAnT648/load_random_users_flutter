@@ -31,7 +31,7 @@ class UsersListScreen extends StatelessWidget
           Widget body;
 
           if (state is InitUsersListState) {
-            bloc.add(UsersListEvent.Load);
+            bloc.add(LoadUsersListEvent());
             body = Center(child: CircularProgressIndicator());
           } else if (state is LoadingUsersListState) {
             body = Center(child: CircularProgressIndicator());
@@ -43,7 +43,7 @@ class UsersListScreen extends StatelessWidget
 
             body = RefreshIndicator(
               onRefresh: () async {
-                bloc?.add(UsersListEvent.Load);
+                bloc?.add(LoadUsersListEvent());
               },
               child: ListView(
                 physics: const AlwaysScrollableScrollPhysics(),
@@ -72,7 +72,7 @@ class UsersListScreen extends StatelessWidget
                 IconButton(
                   icon: const Icon(Icons.exit_to_app),
                   onPressed: () {
-                    bloc.add(UsersListEvent.Logout);
+                    bloc.add(LogoutUsersListEvent());
                     Navigator.pushReplacementNamed(
                         context,
                         AuthScreen.routeName
@@ -85,7 +85,7 @@ class UsersListScreen extends StatelessWidget
             body = RefreshIndicator(
               key: _refreshIndicatorKey,
               onRefresh: () async {
-                bloc?.add(UsersListEvent.Load);
+                bloc?.add(LoadUsersListEvent());
               },
               child: Container(
                 child: ListView.builder(
@@ -124,7 +124,7 @@ class UsersListScreen extends StatelessWidget
                 IconButton(
                   icon: const Icon(Icons.exit_to_app),
                   onPressed: () {
-                    bloc.add(UsersListEvent.Logout);
+                    bloc.add(LogoutUsersListEvent());
                     Navigator.pushReplacementNamed(context, AuthScreen.routeName);
                   },
                 )
@@ -136,7 +136,7 @@ class UsersListScreen extends StatelessWidget
           if (body == null) {
             body = RefreshIndicator(
               onRefresh: () async {
-                bloc?.add(UsersListEvent.Load);
+                bloc?.add(LoadUsersListEvent());
               },
               child: ListView(
                 physics: const AlwaysScrollableScrollPhysics(),

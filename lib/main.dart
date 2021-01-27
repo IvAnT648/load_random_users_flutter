@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:random_user/bloc/auth.dart';
 import 'package:random_user/bloc/users_list.dart';
 import 'package:random_user/screens/auth.dart';
@@ -12,8 +10,7 @@ import 'package:random_user/storage/user_data.dart';
 import 'bloc/user_profile.dart';
 
 void main() async {
-  await Hive.initFlutter();
-  UserDataStorageHive.initHive();
+  await UserDataStorageHive.initHive();
 
   runApp(RandomUsersApp());
 }

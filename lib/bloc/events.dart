@@ -1,13 +1,19 @@
 
-enum UsersListEvent {
-  Load,
-  SearchCompleted,
-  Logout,
-}
+abstract class UsersListEvent {}
 
-enum UserProfileEvent {
-  Init,
-}
+class LoadUsersListEvent extends UsersListEvent {}
+
+class SearchCompletedUsersListEvent extends UsersListEvent {}
+
+class LogoutUsersListEvent extends UsersListEvent {}
+
+///-----------------------------------------------------------------------------
+
+abstract class UserProfileEvent {}
+
+class InitUserProfileEvent extends UserProfileEvent {}
+
+///-----------------------------------------------------------------------------
 
 abstract class AuthScreenEvent {}
 
