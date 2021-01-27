@@ -1,7 +1,7 @@
 
 abstract class UsersListState {}
 
-class EmptyUsersListState extends UsersListState {}
+class InitUsersListState extends UsersListState {}
 
 class ErrorUsersListState extends UsersListState
 {
@@ -37,7 +37,5 @@ class ValidationErrorAuthScreenState extends AuthScreenState {
 
   ValidationErrorAuthScreenState(this.errorMsg);
 }
-
-class ValidateAuthScreenState extends AuthScreenState {}
 
 class LoggedInAuthScreenState extends AuthScreenState {}

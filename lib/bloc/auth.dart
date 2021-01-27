@@ -14,6 +14,7 @@ class AuthBloc extends Bloc<AuthScreenEvent, AuthScreenState> {
     if (event is InitAuthScreenEvent) {
       yield InitAuthScreenState();
     } else if (event is ValidateAuthScreenEvent) {
+
       var repository = AuthRepository(UserDataStorageHive());
 
       if (repository.validate(event.data)) {
@@ -22,8 +23,6 @@ class AuthBloc extends Bloc<AuthScreenEvent, AuthScreenState> {
       } else {
         yield ValidationErrorAuthScreenState('Incorrect login!');
       }
-
-      yield ValidateAuthScreenState();
     } else if (event is LoggedInAuthScreenEvent) {
       yield LoggedInAuthScreenState();
     }

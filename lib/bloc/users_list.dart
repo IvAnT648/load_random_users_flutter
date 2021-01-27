@@ -34,12 +34,12 @@ class UsersListBloc
     return usersListFiltered;
   };
 
-  UsersListBloc() : super(LoadingUsersListState());
+  UsersListBloc() : super(InitUsersListState());
 
   @override
   Stream<UsersListState> mapEventToState(UsersListEvent event) async* {
     switch (event) {
-      case UsersListEvent.Loading:
+      case UsersListEvent.Load:
         yield LoadingUsersListState();
         try {
           data = await _dataProvider.getUsers();

@@ -17,63 +17,78 @@ class AuthScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthBloc, AuthScreenState>(
-      builder: (BuildContext context, AuthScreenState state) {
-
-        if (state is LoggedInAuthScreenState) {
-          Navigator.pushReplacementNamed(context, UsersListScreen.routeName);
-        }
-
-        // ignore: close_sinks
-        var bloc = BlocProvider.of<AuthBloc>(context);
-
-        return Scaffold(
-            appBar: AppBar(title: Text('Random users - Sign in')),
-            body: Container(
-                padding: const EdgeInsets.all(40.0),
-                child: Form(
-                  key: _form,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        child: TextFormField(
-                          validator: (value) =>
-                          value.isEmpty ? 'Enter your login, please' : null,
-                          decoration:
-                          InputDecoration(labelText: 'Type login here...'),
-                          controller: _loginFormFieldController,
-                        ),
-                        margin: const EdgeInsets.symmetric(vertical: 10),
-                      ),
-                      Container(
-                        child: TextButton(
-                          onPressed: () {
-
-                            var login = _loginFormFieldController.value.text;
-                            Map<String, dynamic> data = {
-                              UserDataStorage.loginKey: login
-                            };
-                            bloc.add(ValidateAuthScreenEvent(data));
-                          },
-                          child: Text('Login'),
-                          style: TextButton.styleFrom(
-                              primary: Colors.white,
-                              backgroundColor: Colors.deepOrange,
-                              textStyle: TextStyle(fontSize: 16),
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 40
-                              )
-                          ),
-                        ),
-                        margin: const EdgeInsets.symmetric(vertical: 10),
-                      )
-                    ],
+    return Scaffold(
+      appBar: AppBar(title: Text('Random users - Sign in')),
+      body: BlocConsumer<AuthBloc, AuthScreenState>(
+        listener: (context, state) {
+          if (state is LoggedInAuthScreenState) {
+            Navigator.pushReplacementNamed(context, UsersListScreen.routeName);
+          } else if (state is ValidationErrorAuthScreenState) {
+            Scaffold.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  'Incorrect login!',
+                  style: TextStyle(
+                    fontSize: 18,
                   ),
-                )
-            )
-        );
-      },
+                  textAlign: TextAlign.center,
+                ),
+                backgroundColor: Colors.red[600],
+              ),
+            );
+          }
+        },
+        buildWhen: (previous, current) => current is! LoggedInAuthScreenState,
+        builder: (BuildContext context, AuthScreenState state) {
+
+          // ignore: close_sinks
+          var bloc = BlocProvider.of<AuthBloc>(context);
+
+          // screen body
+          return Container(
+              padding: const EdgeInsets.all(40.0),
+              child: Form(
+                key: _form,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                          labelText: 'Type login here...',
+                        ),
+                        controller: _loginFormFieldController,
+                      ),
+                      margin: const EdgeInsets.symmetric(vertical: 10),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.symmetric(vertical: 10),
+                      child: TextButton(
+                        onPressed: () {
+                          var login = _loginFormFieldController.value.text;
+                          Map<String, dynamic> data = {
+                            UserDataStorage.loginKey: login
+                          };
+                          bloc.add(ValidateAuthScreenEvent(data));
+                        },
+                        child: Text('Login'),
+                        style: TextButton.styleFrom(
+                            primary: Colors.white,
+                            backgroundColor: Colors.deepOrange,
+                            textStyle: TextStyle(fontSize: 16),
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 15,
+                              horizontal: 40,
+                            )
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              )
+          );
+        },
+      ),
     );
   }
 }

@@ -1,6 +1,6 @@
 
 enum UsersListEvent {
-  Loading,
+  Load,
   SearchCompleted,
   Logout,
 }

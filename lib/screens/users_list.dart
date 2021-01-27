@@ -30,10 +30,11 @@ class UsersListScreen extends StatelessWidget
           Widget appBar;
           Widget body;
 
-          if (state is LoadingUsersListState) {
-
+          if (state is InitUsersListState) {
+            bloc.add(UsersListEvent.Load);
             body = Center(child: CircularProgressIndicator());
-
+          } else if (state is LoadingUsersListState) {
+            body = Center(child: CircularProgressIndicator());
           } else if (state is ErrorUsersListState) {
 
             String errorMsgText = state.msg != null
@@ -42,7 +43,7 @@ class UsersListScreen extends StatelessWidget
 
             body = RefreshIndicator(
               onRefresh: () async {
-                bloc?.add(UsersListEvent.Loading);
+                bloc?.add(UsersListEvent.Load);
               },
               child: ListView(
                 physics: const AlwaysScrollableScrollPhysics(),
@@ -84,7 +85,7 @@ class UsersListScreen extends StatelessWidget
             body = RefreshIndicator(
               key: _refreshIndicatorKey,
               onRefresh: () async {
-                bloc?.add(UsersListEvent.Loading);
+                bloc?.add(UsersListEvent.Load);
               },
               child: Container(
                 child: ListView.builder(
@@ -135,16 +136,16 @@ class UsersListScreen extends StatelessWidget
           if (body == null) {
             body = RefreshIndicator(
               onRefresh: () async {
-                bloc?.add(UsersListEvent.Loading);
+                bloc?.add(UsersListEvent.Load);
               },
               child: ListView(
                 physics: const AlwaysScrollableScrollPhysics(),
                 children: [
                   ListTile(
-                      title: Text(
-                          'No data received. Try to refresh it later.',
-                          style: TextStyle(fontSize: 18.0)
-                      )
+                    title: Text(
+                      'No data received. Try to refresh it later.',
+                      style: TextStyle(fontSize: 18.0),
+                    ),
                   )
                 ],
               ),
