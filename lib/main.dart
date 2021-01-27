@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:random_user/bloc/auth.dart';
 import 'package:random_user/bloc/users_list.dart';
 import 'package:random_user/screens/auth.dart';
@@ -10,14 +12,13 @@ import 'package:random_user/storage/user_data.dart';
 import 'bloc/user_profile.dart';
 
 void main() async {
+  await Hive.initFlutter();
   UserDataStorageHive.initHive();
 
   runApp(RandomUsersApp());
 }
 
 class RandomUsersApp extends StatelessWidget {
-  static const String baseRoute = '/';
-
   @override
   Widget build(BuildContext context) {
 
@@ -27,12 +28,8 @@ class RandomUsersApp extends StatelessWidget {
         primarySwatch: Colors.deepOrange,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      initialRoute: baseRoute,
+      initialRoute: AuthScreen.routeName,
       routes: {
-        baseRoute: (_) => BlocProvider<AuthBloc>(
-          create: (_) => AuthBloc(),
-          child: AuthScreen(),
-        ),
         AuthScreen.routeName: (_) => BlocProvider<AuthBloc>(
           create: (_) => AuthBloc(),
           child: AuthScreen(),

@@ -44,6 +44,10 @@ class AuthScreen extends StatelessWidget {
           // ignore: close_sinks
           var bloc = BlocProvider.of<AuthBloc>(context);
 
+          if (state is InitAuthScreenState) {
+            bloc.add(InitAuthScreenEvent());
+          }
+
           // screen body
           return Container(
               padding: const EdgeInsets.all(40.0),

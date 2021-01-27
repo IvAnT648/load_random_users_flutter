@@ -7,18 +7,20 @@ import 'package:random_user/storage/user_data.dart';
 
 class AuthBloc extends Bloc<AuthScreenEvent, AuthScreenState> {
   AuthBloc() : super(InitAuthScreenState());
+  AuthRepository _repository = AuthRepository(UserDataStorageHive());
 
   @override
   Stream<AuthScreenState> mapEventToState(AuthScreenEvent event) async* {
 
     if (event is InitAuthScreenEvent) {
-      yield InitAuthScreenState();
+      if (_repository.isUserLoggedIn()) {
+        yield LoggedInAuthScreenState();
+      } else {
+        yield InitAuthScreenState();
+      }
     } else if (event is ValidateAuthScreenEvent) {
-
-      var repository = AuthRepository(UserDataStorageHive());
-
-      if (repository.validate(event.data)) {
-        repository.signIn(event.data);
+      if (_repository.validate(event.data)) {
+        _repository.signIn(event.data);
         yield LoggedInAuthScreenState();
       } else {
         yield ValidationErrorAuthScreenState('Incorrect login!');
