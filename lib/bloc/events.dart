@@ -9,18 +9,14 @@ enum UserProfileEvent {
   Init,
 }
 
-enum MainScreenEvent {
-  Init,
-}
-
 abstract class AuthScreenEvent {}
 
 class InitAuthScreenEvent extends AuthScreenEvent {}
 
 class ValidateAuthScreenEvent extends AuthScreenEvent {
-  final Map<String, dynamic> data;
+  String login;
 
-  ValidateAuthScreenEvent(this.data);
+  ValidateAuthScreenEvent(this.login);
 }
 
 class LoggedInAuthScreenEvent extends AuthScreenEvent {}

@@ -6,17 +6,15 @@ class AuthRepository {
 
   AuthRepository(this._storage);
 
-  void signIn(Map<String, dynamic> data) {
-    _storage.login = data[UserDataStorage.loginKey];
+  void signIn(String login) {
+    _storage.login = login;
   }
 
   bool isUserLoggedIn() {
     return _storage.login != null && _storage.login.isNotEmpty;
   }
 
-  bool validate(Map<String, dynamic> userData) {
-    return (userData != null)
-        && (userData['login'] != null)
-        && (userData['login'].isNotEmpty);
+  bool validateLogin(String login) {
+    return login != null && login.isNotEmpty;
   }
 }

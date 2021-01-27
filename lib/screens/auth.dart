@@ -70,10 +70,7 @@ class AuthScreen extends StatelessWidget {
                       child: TextButton(
                         onPressed: () {
                           var login = _loginFormFieldController.value.text;
-                          Map<String, dynamic> data = {
-                            UserDataStorage.loginKey: login
-                          };
-                          bloc.add(ValidateAuthScreenEvent(data));
+                          bloc.add(ValidateAuthScreenEvent(login));
                         },
                         child: Text('Login'),
                         style: TextButton.styleFrom(

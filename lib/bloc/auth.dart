@@ -19,8 +19,8 @@ class AuthBloc extends Bloc<AuthScreenEvent, AuthScreenState> {
         yield InitAuthScreenState();
       }
     } else if (event is ValidateAuthScreenEvent) {
-      if (_repository.validate(event.data)) {
-        _repository.signIn(event.data);
+      if (_repository.validateLogin(event.login)) {
+        _repository.signIn(event.login);
         yield LoggedInAuthScreenState();
       } else {
         yield ValidationErrorAuthScreenState('Incorrect login!');
